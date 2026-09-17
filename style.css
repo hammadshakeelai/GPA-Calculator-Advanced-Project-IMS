@@ -86,17 +86,23 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .calc-btn:hover { background: #2ecc71; }
   .delete-btn:hover { background: #e74c3c; }
   .close-btn:hover { background: #eef4ff; }
+  .fill-btn:hover { background: #dde9fb; }
 }
 
-/* NEW: SEMESTER GRID (Tab 3) */
+/* SEMESTER GRID (Tab 3): Sem | SGPA | Credit Hrs */
+.fill-row { margin-top: 16px; }
+.fill-btn { background: #eef4ff; color: #2a5298; border: 1px solid #c9d8f0; font-weight: 600; }
 .semester-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 2 Columns */
-  gap: 15px;
+  grid-template-columns: auto 1fr 1fr;
+  gap: 10px 12px; align-items: center;
   max-width: 500px;
-  margin: 20px auto 0;
+  margin: 16px auto 0; text-align: left;
 }
-.semester-grid .input-group { text-align: left; }
+.sem-head { font-size: 12px; font-weight: 700; color: #6b7a90; text-transform: uppercase; letter-spacing: 0.3px; }
+.sem-label { font-weight: bold; font-size: 14px; color: #555; white-space: nowrap; }
+.semester-grid input { width: 100%; min-width: 0; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
+.semester-grid input.invalid { border: 2px solid #e74c3c; background: #fff5f5; }
 
 /* CGPA FORM */
 .cgpa-container { text-align: center; }
@@ -196,7 +202,8 @@ footer a { color: #f39c12; text-decoration: none; }
   .buttons .calc-btn { grid-column: 1 / -1; }
   .buttons button { min-height: 46px; font-size: 15px; }
 
-  .semester-grid { gap: 10px; }
+  .semester-grid { gap: 8px 10px; }
+  .fill-btn { width: 100%; min-height: 44px; }
   .cgpa-form { margin: 16px auto; gap: 12px; }
   .result-box h3 { font-size: 18px; }
   footer { font-size: 12px; padding: 12px; }

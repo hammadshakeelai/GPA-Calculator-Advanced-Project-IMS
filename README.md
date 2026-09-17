@@ -25,7 +25,7 @@ It uses **Local Storage** to save your history privately on your device—no dat
 
 1. **Semester GPA:** Detailed calculator with row-by-row grading.
 2. **CGPA Calculator:** Combine your previous CGPA with your current semester's result.
-3. **8-Semester Average:** Calculate the average of multiple semesters instantly.
+3. **All-Semesters CGPA:** Enter each semester's SGPA and credit hours to get your real (credit-weighted) CGPA. One tap fills in the BSAI 2024 batch credit hours.
 4. **Mistake Removal:** Easily delete individual subject rows.
 
 ### ⚙️ **Customizable Grading**
@@ -43,7 +43,9 @@ It uses **Local Storage** to save your history privately on your device—no dat
 
 ## 📚 Included Presets
 
-### **BS Artificial Intelligence (BSAI)**
+### **BS Artificial Intelligence (BSAI) – 2024-2028 batch**
+
+> These presets follow the scheme of the 2024-2028 batch (Sem 1: 16, Sem 2: 17, Sem 3: 18, Sem 4: 19, Sem 5: 18 credit hours). Newer batches follow a revised scheme with different subjects, so check your own course outline.
 
 - ✅ Semester 1
 - ✅ Semester 2

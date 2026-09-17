@@ -13,7 +13,8 @@ document.addEventListener("keydown", (e) => {
 // Inside script.js
 
 const presets = {
-    // --- BSAI (Artificial Intelligence) ---
+    // --- BSAI (Artificial Intelligence) - 2024-2028 batch scheme ---
+    // Newer batches follow a different scheme (see imsciences.edu.pk BSAI page)
     "bsai_1": [
         { name: "Functional English", credit: 3 },
         { name: "Programming Fund. (Th)", credit: 3 },
@@ -247,28 +248,54 @@ function calculateCGPA() {
     saveToHistory(`CGPA: ${finalCGPA}`, `Total: ${totalCredits} Credits`);
 }
 
-// --- NEW CALCULATION: AVERAGE OF 8 SEMESTERS ---
-function calculateAverage() {
-    let inputs = document.querySelectorAll(".sem-input");
-    let totalGPA = 0;
-    let count = 0;
+// --- CALCULATION: CGPA FROM ALL SEMESTERS (credit-weighted) ---
+// Fills Sem 1-5 credit hours from the BSAI presets, so both stay in sync
+function fillBatchCredits() {
+    let creditInputs = document.querySelectorAll(".sem-credit");
+    ["bsai_1", "bsai_2", "bsai_3", "bsai_4", "bsai_5"].forEach((key, i) => {
+        creditInputs[i].value = presets[key].reduce((sum, sub) => sum + sub.credit, 0);
+        creditInputs[i].classList.remove("invalid");
+    });
+}
 
-    inputs.forEach(input => {
-        let val = parseFloat(input.value);
-        if(!isNaN(val) && val > 0) {
-            totalGPA += val;
+function calculateAverage() {
+    let sgpaInputs = document.querySelectorAll(".sem-input");
+    let creditInputs = document.querySelectorAll(".sem-credit");
+    let totalPts = 0, totalCr = 0, count = 0;
+    let error = false;
+
+    sgpaInputs.forEach((sgpaInput, i) => {
+        let crInput = creditInputs[i];
+        sgpaInput.classList.remove("invalid");
+        crInput.classList.remove("invalid");
+
+        // A semester without an SGPA is skipped (even if credits were filled in)
+        if (sgpaInput.value === "") return;
+
+        let sgpa = parseFloat(sgpaInput.value);
+        let cr = parseFloat(crInput.value);
+        if (isNaN(sgpa) || sgpa < 0 || sgpa > 4) { sgpaInput.classList.add("invalid"); error = true; }
+        if (isNaN(cr) || cr < 1) { crInput.classList.add("invalid"); error = true; }
+
+        if (!error) {
+            totalPts += sgpa * cr;
+            totalCr += cr;
             count++;
         }
     });
 
-    if(count === 0) {
-        document.getElementById("avg-result").innerHTML = "<p style='color:red'>Please enter at least one semester GPA.</p>";
+    if (error) {
+        document.getElementById("avg-result").innerHTML = "<p style='color:red'>Enter an SGPA (0-4) and credit hours for every semester you filled in.</p>";
+        return;
+    }
+    if (count === 0) {
+        document.getElementById("avg-result").innerHTML = "<p style='color:red'>Please enter at least one semester's SGPA and credit hours.</p>";
         return;
     }
 
-    let average = (totalGPA / count).toFixed(2);
-    document.getElementById("avg-result").innerHTML = `<h3>Average GPA: ${average}</h3><p>Calculated from ${count} semester(s)</p>`;
-    saveToHistory(`Avg GPA: ${average}`, `${count} Sems`);
+    let cgpa = (totalPts / totalCr).toFixed(2);
+    document.getElementById("avg-result").innerHTML = `<h3>CGPA: ${cgpa}</h3><p>From ${count} semester(s), ${totalCr} credit hours</p>`;
+    saveToHistory(`CGPA: ${cgpa}`, `${count} Sems, ${totalCr} Credits`);
 }
 
 // --- HISTORY ---

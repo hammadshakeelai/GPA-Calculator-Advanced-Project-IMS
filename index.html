@@ -55,7 +55,7 @@
           <i class="fas fa-layer-group"></i><span class="tab-long">2. Combine CGPA</span><span class="tab-short">CGPA</span>
         </button>
         <button class="tab-link" onclick="openTab(event, 'avg')">
-          <i class="fas fa-chart-line"></i><span class="tab-long">3. All Semesters Avg</span><span class="tab-short">Average</span>
+          <i class="fas fa-chart-line"></i><span class="tab-long">3. All Semesters CGPA</span><span class="tab-short">All Sems</span>
         </button>
       </div>
 
@@ -86,12 +86,12 @@
               <select id="presetSelect" onchange="loadPreset()">
                 <option value="">-- Select Semester --</option>
                 
-                <optgroup label="BS Artificial Intelligence (BSAI)">
-                  <option value="bsai_1">BSAI - Semester 1</option>
-                  <option value="bsai_2">BSAI - Semester 2</option>
-                  <option value="bsai_3">BSAI - Semester 3</option>
-                  <option value="bsai_4">BSAI - Semester 4</option>
-                  <option value="bsai_5">BSAI - Semester 5</option>
+                <optgroup label="BS Artificial Intelligence (BSAI) - 2024 batch">
+                  <option value="bsai_1">BSAI (2024 batch) - Semester 1</option>
+                  <option value="bsai_2">BSAI (2024 batch) - Semester 2</option>
+                  <option value="bsai_3">BSAI (2024 batch) - Semester 3</option>
+                  <option value="bsai_4">BSAI (2024 batch) - Semester 4</option>
+                  <option value="bsai_5">BSAI (2024 batch) - Semester 5</option>
                 </optgroup>
 
                 <optgroup label="BS Computer Science (BSCS)">
@@ -161,22 +161,27 @@
 
       <div id="avg" class="tab-content" style="display:none;">
         <div class="cgpa-container">
-          <h3>8 Semester Average</h3>
-          <p class="info-text">Enter the SGPA for any semesters you have completed. Leave the rest empty.</p>
-          
+          <h3>CGPA from All Semesters</h3>
+          <p class="info-text">Enter the SGPA and credit hours of each semester you have completed. Leave the rest empty. Each semester counts according to its credit hours, just like your real CGPA.</p>
+
+          <div class="fill-row">
+            <button onclick="fillBatchCredits()" class="fill-btn"><i class="fas fa-bolt"></i> Fill BSAI 2024 batch credit hours</button>
+          </div>
+
           <div class="semester-grid">
-            <div class="input-group"><label>Sem 1:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
-            <div class="input-group"><label>Sem 2:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
-            <div class="input-group"><label>Sem 3:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
-            <div class="input-group"><label>Sem 4:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
-            <div class="input-group"><label>Sem 5:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
-            <div class="input-group"><label>Sem 6:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
-            <div class="input-group"><label>Sem 7:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
-            <div class="input-group"><label>Sem 8:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
+            <span class="sem-head"></span><span class="sem-head">SGPA</span><span class="sem-head">Credit Hrs</span>
+            <label class="sem-label">Sem 1</label><input type="number" class="sem-input" step="0.01" min="0" max="4" inputmode="decimal" placeholder="e.g. 3.40" aria-label="Semester 1 SGPA"><input type="number" class="sem-credit" min="1" inputmode="numeric" placeholder="e.g. 18" aria-label="Semester 1 credit hours">
+            <label class="sem-label">Sem 2</label><input type="number" class="sem-input" step="0.01" min="0" max="4" inputmode="decimal" aria-label="Semester 2 SGPA"><input type="number" class="sem-credit" min="1" inputmode="numeric" aria-label="Semester 2 credit hours">
+            <label class="sem-label">Sem 3</label><input type="number" class="sem-input" step="0.01" min="0" max="4" inputmode="decimal" aria-label="Semester 3 SGPA"><input type="number" class="sem-credit" min="1" inputmode="numeric" aria-label="Semester 3 credit hours">
+            <label class="sem-label">Sem 4</label><input type="number" class="sem-input" step="0.01" min="0" max="4" inputmode="decimal" aria-label="Semester 4 SGPA"><input type="number" class="sem-credit" min="1" inputmode="numeric" aria-label="Semester 4 credit hours">
+            <label class="sem-label">Sem 5</label><input type="number" class="sem-input" step="0.01" min="0" max="4" inputmode="decimal" aria-label="Semester 5 SGPA"><input type="number" class="sem-credit" min="1" inputmode="numeric" aria-label="Semester 5 credit hours">
+            <label class="sem-label">Sem 6</label><input type="number" class="sem-input" step="0.01" min="0" max="4" inputmode="decimal" aria-label="Semester 6 SGPA"><input type="number" class="sem-credit" min="1" inputmode="numeric" aria-label="Semester 6 credit hours">
+            <label class="sem-label">Sem 7</label><input type="number" class="sem-input" step="0.01" min="0" max="4" inputmode="decimal" aria-label="Semester 7 SGPA"><input type="number" class="sem-credit" min="1" inputmode="numeric" aria-label="Semester 7 credit hours">
+            <label class="sem-label">Sem 8</label><input type="number" class="sem-input" step="0.01" min="0" max="4" inputmode="decimal" aria-label="Semester 8 SGPA"><input type="number" class="sem-credit" min="1" inputmode="numeric" aria-label="Semester 8 credit hours">
           </div>
 
           <div class="buttons">
-            <button onclick="calculateAverage()" class="calc-btn">Calculate Average</button>
+            <button onclick="calculateAverage()" class="calc-btn">Calculate CGPA</button>
           </div>
           <div id="avg-result" class="result-box"></div>
         </div>
