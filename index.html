@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1e3c72">
   <title>IMS GPA Portal</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -19,29 +20,43 @@
       <h1>GPA Portal</h1>
     </div>
     <div class="header-right">
-      <a href="https://admissions.imsciences.edu.pk/" target="_blank" class="nav-link">Admissions</a>
-      <a href="https://etc.imsciences.edu.pk/" target="_blank" class="portal-btn">
-        <i class="fas fa-university"></i> IMS Portal
+      <a href="https://admissions.imsciences.edu.pk/" target="_blank" class="nav-link" title="Admissions" aria-label="Admissions">
+        <i class="fas fa-user-graduate"></i><span class="btn-text"> Admissions</span>
       </a>
-      <button onclick="toggleHistory()" class="icon-btn" title="View History">
+      <a href="https://etc.imsciences.edu.pk/" target="_blank" class="portal-btn" title="IMS Portal" aria-label="IMS Portal">
+        <i class="fas fa-university"></i><span class="btn-text"> IMS Portal</span>
+      </a>
+      <button onclick="toggleHistory()" class="icon-btn" title="View History" aria-label="View History">
         <i class="fas fa-history"></i>
       </button>
     </div>
   </header>
 
   <main>
+    <div id="historyBackdrop" class="history-backdrop hidden" onclick="toggleHistory(false)"></div>
     <div id="historyPanel" class="history-panel hidden">
-      <h3>Saved Calculations</h3>
+      <div class="history-head">
+        <h3>Saved Calculations</h3>
+        <button onclick="toggleHistory(false)" class="close-btn" title="Close" aria-label="Close history">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
       <ul id="historyList"></ul>
       <button onclick="clearHistory()" class="danger-btn">Clear History</button>
     </div>
 
     <section class="calculator-container">
-      
+
       <div class="tabs">
-        <button class="tab-link active" onclick="openTab(event, 'sgpa')">1. Semester GPA</button>
-        <button class="tab-link" onclick="openTab(event, 'cgpa')">2. Combine CGPA</button>
-        <button class="tab-link" onclick="openTab(event, 'avg')">3. All Semesters Avg</button>
+        <button class="tab-link active" onclick="openTab(event, 'sgpa')">
+          <i class="fas fa-calculator"></i><span class="tab-long">1. Semester GPA</span><span class="tab-short">SGPA</span>
+        </button>
+        <button class="tab-link" onclick="openTab(event, 'cgpa')">
+          <i class="fas fa-layer-group"></i><span class="tab-long">2. Combine CGPA</span><span class="tab-short">CGPA</span>
+        </button>
+        <button class="tab-link" onclick="openTab(event, 'avg')">
+          <i class="fas fa-chart-line"></i><span class="tab-long">3. All Semesters Avg</span><span class="tab-short">Average</span>
+        </button>
       </div>
 
       <div id="sgpa" class="tab-content">
@@ -58,12 +73,13 @@
           <div id="customSettings" class="custom-settings hidden">
             <div class="small-input">
               <label>Min Marks for A:</label>
-              <input type="number" id="customA" value="85">
+              <input type="number" id="customA" value="85" inputmode="decimal" oninput="recalcAllRows()">
             </div>
             <div class="small-input">
               <label>Passing Marks:</label>
-              <input type="number" id="customPass" value="50">
+              <input type="number" id="customPass" value="50" inputmode="decimal" oninput="recalcAllRows()">
             </div>
+            <p class="custom-hint">Marks between Passing and A are split evenly into C, C+, B and B+.</p>
           </div>
             <div class="control-group">
               <label>Load Preset:</label>
@@ -74,7 +90,8 @@
                   <option value="bsai_1">BSAI - Semester 1</option>
                   <option value="bsai_2">BSAI - Semester 2</option>
                   <option value="bsai_3">BSAI - Semester 3</option>
-                  <option value="bsai_4">BSAI - Semester 4</option> 
+                  <option value="bsai_4">BSAI - Semester 4</option>
+                  <option value="bsai_5">BSAI - Semester 5</option>
                 </optgroup>
 
                 <optgroup label="BS Computer Science (BSCS)">
@@ -102,7 +119,7 @@
           <tbody></tbody>
         </table>
 
-        <div class="buttons">
+        <div class="buttons sgpa-buttons">
           <button onclick="addRow()">+ Add Subject</button>
           <button onclick="resetTable()" class="reset-btn">Reset</button>
           <button onclick="calculateSGPA()" class="calc-btn">Calculate SGPA</button>
@@ -118,20 +135,20 @@
           <div class="cgpa-form">
             <div class="input-group">
               <label>Current CGPA (Old):</label>
-              <input type="number" id="currentCGPA" placeholder="e.g. 3.45" step="0.01">
+              <input type="number" id="currentCGPA" placeholder="e.g. 3.45" step="0.01" inputmode="decimal">
             </div>
             <div class="input-group">
               <label>Credits Passed (Old):</label>
-              <input type="number" id="completedCredits" placeholder="e.g. 60">
+              <input type="number" id="completedCredits" placeholder="e.g. 60" inputmode="numeric">
             </div>
             <div class="divider"><span>+ PLUS +</span></div>
             <div class="input-group">
               <label>New Semester SGPA:</label>
-              <input type="number" id="newSGPA" placeholder="e.g. 3.8" step="0.01">
+              <input type="number" id="newSGPA" placeholder="e.g. 3.8" step="0.01" inputmode="decimal">
             </div>
             <div class="input-group">
               <label>New Semester Credits:</label>
-              <input type="number" id="newCredits" placeholder="e.g. 15">
+              <input type="number" id="newCredits" placeholder="e.g. 15" inputmode="numeric">
             </div>
           </div>
 
@@ -148,14 +165,14 @@
           <p class="info-text">Enter the SGPA for any semesters you have completed. Leave the rest empty.</p>
           
           <div class="semester-grid">
-            <div class="input-group"><label>Sem 1:</label><input type="number" class="sem-input" step="0.01"></div>
-            <div class="input-group"><label>Sem 2:</label><input type="number" class="sem-input" step="0.01"></div>
-            <div class="input-group"><label>Sem 3:</label><input type="number" class="sem-input" step="0.01"></div>
-            <div class="input-group"><label>Sem 4:</label><input type="number" class="sem-input" step="0.01"></div>
-            <div class="input-group"><label>Sem 5:</label><input type="number" class="sem-input" step="0.01"></div>
-            <div class="input-group"><label>Sem 6:</label><input type="number" class="sem-input" step="0.01"></div>
-            <div class="input-group"><label>Sem 7:</label><input type="number" class="sem-input" step="0.01"></div>
-            <div class="input-group"><label>Sem 8:</label><input type="number" class="sem-input" step="0.01"></div>
+            <div class="input-group"><label>Sem 1:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
+            <div class="input-group"><label>Sem 2:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
+            <div class="input-group"><label>Sem 3:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
+            <div class="input-group"><label>Sem 4:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
+            <div class="input-group"><label>Sem 5:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
+            <div class="input-group"><label>Sem 6:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
+            <div class="input-group"><label>Sem 7:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
+            <div class="input-group"><label>Sem 8:</label><input type="number" class="sem-input" step="0.01" inputmode="decimal"></div>
           </div>
 
           <div class="buttons">

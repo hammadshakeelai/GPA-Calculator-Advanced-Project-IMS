@@ -3,6 +3,11 @@ document.addEventListener("DOMContentLoaded", () => {
     addRow(); // Start with one row
 });
 
+// Close the history panel with the Escape key
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") toggleHistory(false);
+});
+
 // --- PRESETS ---
 
 // Inside script.js
@@ -50,6 +55,19 @@ const presets = {
         { name: "Comp. Org. & Assembly (Lab)", credit: 1 },
         { name: "Probability & Statistics", credit: 3 }
     ],
+    // --- NEW: BSAI Semester 5 (18 Cr, from Fall 2026 timetable) ---
+    "bsai_5": [
+        { name: "Machine Learning (Th)", credit: 2 },
+        { name: "Machine Learning (Lab)", credit: 1 },
+        { name: "Computer Networks (Th)", credit: 2 },
+        { name: "Computer Networks (Lab)", credit: 1 },
+        { name: "Parallel & Distributed Comp. (Th)", credit: 2 },
+        { name: "Parallel & Distributed Comp. (Lab)", credit: 1 },
+        { name: "Programming for AI (Th)", credit: 2 },
+        { name: "Programming for AI (Lab)", credit: 1 },
+        { name: "Technical & Business Writing", credit: 3 },
+        { name: "Fundamentals of Accounting", credit: 3 }
+    ],
 
     // --- BSCS (Computer Science) ---
     "cs_1": [
@@ -86,6 +104,7 @@ function toggleCustomSettings() {
     let customBox = document.getElementById("customSettings");
     if (model === "custom") customBox.classList.remove("hidden");
     else customBox.classList.add("hidden");
+    recalcAllRows(); // Grades depend on the model, so refresh them
 }
 
 // --- LOGIC: GRADING ---
@@ -96,8 +115,13 @@ function getGradeAndGPA(marks, model) {
         let passing = parseFloat(document.getElementById("customPass").value) || 50;
         if (marks >= minA) return ["A", 4.0];
         if (marks < passing) return ["F", 0.0];
-        if (marks >= passing) return ["P", 2.0];
-    } 
+        // Split the Passing..A range into four equal steps: C, C+, B, B+
+        let step = (minA - passing) / 4;
+        if (marks >= passing + step * 3) return ["B+", 3.5];
+        if (marks >= passing + step * 2) return ["B", 3.0];
+        if (marks >= passing + step) return ["C+", 2.5];
+        return ["C", 2.0];
+    }
     if (model === "strict") {
         if (marks >= 95) return ["A+", 4.0];
         if (marks >= 90) return ["A", 4.0];
@@ -120,13 +144,14 @@ function getGradeAndGPA(marks, model) {
 function addRow(name = "", credit = "", marks = "") {
     let tbody = document.getElementById("courseTable").getElementsByTagName('tbody')[0];
     let row = tbody.insertRow();
+    // data-label is shown above each value in the phone (card) layout
     row.innerHTML = `
-        <td><input type="text" placeholder="Subject" value="${name}"></td>
-        <td><input type="number" placeholder="Cr" min="1" max="6" value="${credit}"></td>
-        <td><input type="number" placeholder="%" min="0" max="100" value="${marks}" oninput="autoCalc(this)"></td>
-        <td class="grd">-</td>
-        <td class="gpa">-</td>
-        <td><button class="delete-btn" onclick="deleteRow(this)"><i class="fas fa-trash"></i></button></td>
+        <td class="subject-cell"><input type="text" placeholder="Subject name" value="${name}" aria-label="Subject"></td>
+        <td data-label="Cr. Hrs"><input type="number" placeholder="Cr" min="1" max="6" value="${credit}" inputmode="numeric" aria-label="Credit hours"></td>
+        <td data-label="Marks"><input type="number" placeholder="%" min="0" max="100" value="${marks}" inputmode="decimal" oninput="autoCalc(this)" aria-label="Marks"></td>
+        <td data-label="Grade" class="grd">-</td>
+        <td data-label="GPA" class="gpa">-</td>
+        <td class="action-cell"><button class="delete-btn" onclick="deleteRow(this)" title="Remove subject" aria-label="Remove subject"><i class="fas fa-trash"></i></button></td>
     `;
 }
 
@@ -145,6 +170,7 @@ function loadPreset() {
     let key = document.getElementById("presetSelect").value;
     if (key && presets[key]) {
         document.querySelector("#courseTable tbody").innerHTML = "";
+        document.getElementById("sgpa-result").innerHTML = "";
         presets[key].forEach(sub => addRow(sub.name, sub.credit, ""));
     }
 }
@@ -153,11 +179,20 @@ function autoCalc(input) {
     let row = input.parentNode.parentNode;
     let marks = input.value;
     let model = document.getElementById("gradingModel").value;
-    if(marks) {
+    if(marks !== "") {
         let [g, p] = getGradeAndGPA(marks, model);
         row.querySelector(".grd").innerText = g;
         row.querySelector(".gpa").innerText = p;
+    } else {
+        row.querySelector(".grd").innerText = "-";
+        row.querySelector(".gpa").innerText = "-";
     }
+}
+
+function recalcAllRows() {
+    document.querySelectorAll("#courseTable tbody tr").forEach(row => {
+        autoCalc(row.getElementsByTagName("input")[2]);
+    });
 }
 
 // --- CALCULATION: SGPA ---
@@ -172,10 +207,10 @@ function calculateSGPA() {
         let cr = parseFloat(inputs[1].value);
         let mk = parseFloat(inputs[2].value);
 
-        if(isNaN(cr) || cr < 1) { inputs[1].style.border="2px solid red"; error=true; }
-        else inputs[1].style.border="1px solid #ccc";
-        if(isNaN(mk) || mk < 0 || mk > 100) { inputs[2].style.border="2px solid red"; error=true; }
-        else inputs[2].style.border="1px solid #ccc";
+        if(isNaN(cr) || cr < 1) { inputs[1].classList.add("invalid"); error=true; }
+        else inputs[1].classList.remove("invalid");
+        if(isNaN(mk) || mk < 0 || mk > 100) { inputs[2].classList.add("invalid"); error=true; }
+        else inputs[2].classList.remove("invalid");
 
         if(!error && !isNaN(cr) && !isNaN(mk)) {
             let [gr, gp] = getGradeAndGPA(mk, model);
@@ -188,7 +223,7 @@ function calculateSGPA() {
 
     if(error) return;
     let final = totalCr > 0 ? (totalPts / totalCr).toFixed(2) : 0.00;
-    document.getElementById("sgpa-result").innerHTML = `<h3>Semester GPA: ${final}</h3>`;
+    document.getElementById("sgpa-result").innerHTML = `<h3>Semester GPA: ${final}</h3><p>Total Credit Hours: ${totalCr}</p>`;
     saveToHistory(`SGPA: ${final}`, `${totalCr} Credits`);
 }
 
@@ -237,7 +272,13 @@ function calculateAverage() {
 }
 
 // --- HISTORY ---
-function toggleHistory() { document.getElementById("historyPanel").classList.toggle("hidden"); }
+// No argument toggles; true/false forces open/closed
+function toggleHistory(open) {
+    let panel = document.getElementById("historyPanel");
+    let show = typeof open === "boolean" ? open : panel.classList.contains("hidden");
+    panel.classList.toggle("hidden", !show);
+    document.getElementById("historyBackdrop").classList.toggle("hidden", !show);
+}
 function saveToHistory(title, detail) {
     let hist = JSON.parse(localStorage.getItem("imsHistory")) || [];
     hist.unshift({ title, detail, time: new Date().toLocaleTimeString() });
@@ -249,10 +290,22 @@ function loadHistory() {
     let hist = JSON.parse(localStorage.getItem("imsHistory")) || [];
     let list = document.getElementById("historyList");
     list.innerHTML = "";
+    if (hist.length === 0) {
+        let empty = document.createElement("li");
+        empty.className = "history-empty";
+        empty.textContent = "No saved calculations yet.";
+        list.appendChild(empty);
+        return;
+    }
     hist.forEach(h => {
+        // Built with textContent so saved text is never run as HTML
         let li = document.createElement("li");
         li.className = "history-item";
-        li.innerHTML = `<strong>${h.title}</strong><br><small>${h.detail} @ ${h.time}</small>`;
+        let title = document.createElement("strong");
+        title.textContent = h.title;
+        let detail = document.createElement("small");
+        detail.textContent = `${h.detail} @ ${h.time}`;
+        li.append(title, document.createElement("br"), detail);
         list.appendChild(li);
     });
 }

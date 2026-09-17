@@ -1,30 +1,29 @@
 /* GLOBAL RESET */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+html { -webkit-text-size-adjust: 100%; }
 body { background: #f4f7fb; color: #333; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
 
 /* HEADER */
 header {
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
   background: linear-gradient(90deg, #1e3c72, #2a5298);
   color: white; padding: 10px 30px; border-bottom: 4px solid #3498db;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2); position: relative; z-index: 10;
 }
 .header-left img { width: 60px; background: white; border-radius: 8px; padding: 4px; display: block; transition: transform 0.2s; }
-.header-left img:hover { transform: scale(1.05); }
-.header-center h1 { font-size: 22px; margin: 0; font-weight: 700; letter-spacing: 1px; }
+.header-center h1 { font-size: 22px; margin: 0; font-weight: 700; letter-spacing: 1px; white-space: nowrap; }
 .header-right { display: flex; align-items: center; gap: 15px; }
-.nav-link { color: #aed9e0; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
-.nav-link:hover { color: white; text-decoration: underline; }
+.nav-link { display: inline-flex; align-items: center; gap: 6px; color: #aed9e0; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
 .portal-btn {
+  display: inline-flex; align-items: center; gap: 6px;
   background: #f39c12; color: white; text-decoration: none; padding: 8px 15px;
   border-radius: 20px; font-size: 13px; font-weight: bold; border: 1px solid #e67e22; transition: 0.3s;
 }
-.portal-btn:hover { background: #d35400; transform: translateY(-2px); }
 .icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
   background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4);
   color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px;
 }
-.icon-btn:hover { background: rgba(255,255,255,0.4); }
 
 /* MAIN LAYOUT */
 main { flex: 1; display: flex; justify-content: center; padding: 30px 20px; position: relative; }
@@ -33,23 +32,27 @@ main { flex: 1; display: flex; justify-content: center; padding: 30px 20px; posi
 /* TABS */
 .tabs { display: flex; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; border-bottom: 2px solid #ddd; }
 .tab-link {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   background: transparent; color: #777; border: none; padding: 15px 20px;
   font-size: 16px; font-weight: bold; cursor: pointer; border-bottom: 3px solid transparent; transition: 0.3s;
 }
-.tab-link:hover { color: #2a5298; }
 .tab-link.active { color: #2a5298; border-bottom: 3px solid #2a5298; }
+.tab-short { display: none; }
 .tab-content { animation: fadeIn 0.4s; }
+.info-text { color: #666; font-size: 14px; margin-top: 6px; }
 
 /* CONTROLS */
 .controls { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; margin-bottom: 20px; background: #eef4ff; padding: 15px; border-radius: 8px; border: 1px solid #dcebf7; }
 .control-group { display: flex; flex-direction: column; text-align: left; flex: 1; min-width: 200px; }
-.control-group select { padding: 8px; border-radius: 5px; border: 1px solid #ccc; margin-top: 5px; }
+.control-group label { font-weight: 600; font-size: 14px; color: #444; }
+.control-group select { padding: 8px; border-radius: 5px; border: 1px solid #ccc; margin-top: 5px; background: #fff; }
 
 /* CUSTOM SETTINGS */
-.custom-settings { width: 100%; display: flex; gap: 15px; background: #fff; padding: 10px; margin-top: 10px; border: 1px dashed #2a5298; border-radius: 5px; }
+.custom-settings { width: 100%; display: flex; flex-wrap: wrap; gap: 15px; background: #fff; padding: 10px; margin-top: 10px; border: 1px dashed #2a5298; border-radius: 5px; }
 .custom-settings.hidden { display: none; }
-.small-input { display: flex; flex-direction: column; flex: 1; text-align: left; }
+.small-input { display: flex; flex-direction: column; flex: 1; min-width: 120px; text-align: left; }
 .small-input input { padding: 5px; border: 1px solid #bbb; border-radius: 4px; }
+.custom-hint { width: 100%; font-size: 12px; color: #555; text-align: left; }
 
 /* TABLE */
 table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
@@ -57,14 +60,33 @@ table th, table td { border: 1px solid #ddd; padding: 10px; text-align: center; 
 table th { background: #2a5298; color: white; font-size: 14px; }
 table input { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; text-align: center; }
 table input:focus { border-color: #2a5298; outline: none; }
+table input.invalid { border: 2px solid #e74c3c; background: #fff5f5; }
+#courseTable td.subject-cell { width: 44%; }
+td.grd, td.gpa { font-weight: 600; color: #2a5298; }
 
 /* BUTTONS */
 .buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
 button { padding: 10px 18px; border: none; border-radius: 6px; background: #2a5298; color: white; cursor: pointer; font-size: 14px; transition: 0.2s; }
-button:hover { transform: scale(1.05); }
-.reset-btn { background: #f39c12; } .reset-btn:hover { background: #e67e22; }
-.calc-btn { background: #27ae60; } .calc-btn:hover { background: #2ecc71; }
-.delete-btn { background: #c0392b; padding: 6px 10px; } .delete-btn:hover { background: #e74c3c; }
+button:active { transform: scale(0.97); }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #f39c12; outline-offset: 2px; }
+.reset-btn { background: #f39c12; }
+.calc-btn { background: #27ae60; }
+.delete-btn { background: #c0392b; padding: 6px 10px; }
+
+/* Hover effects only on devices with a real mouse (avoids "stuck" hover after a tap) */
+@media (hover: hover) {
+  .header-left img:hover { transform: scale(1.05); }
+  .nav-link:hover { color: white; text-decoration: underline; }
+  .portal-btn:hover { background: #d35400; transform: translateY(-2px); }
+  .icon-btn:hover { background: rgba(255,255,255,0.4); }
+  .tab-link:hover { color: #2a5298; }
+  button:hover { transform: scale(1.05); }
+  .tab-link:hover, .close-btn:hover { transform: none; }
+  .reset-btn:hover { background: #e67e22; }
+  .calc-btn:hover { background: #2ecc71; }
+  .delete-btn:hover { background: #e74c3c; }
+  .close-btn:hover { background: #eef4ff; }
+}
 
 /* NEW: SEMESTER GRID (Tab 3) */
 .semester-grid {
@@ -72,7 +94,7 @@ button:hover { transform: scale(1.05); }
   grid-template-columns: 1fr 1fr; /* 2 Columns */
   gap: 15px;
   max-width: 500px;
-  margin: 0 auto;
+  margin: 20px auto 0;
 }
 .semester-grid .input-group { text-align: left; }
 
@@ -80,32 +102,110 @@ button:hover { transform: scale(1.05); }
 .cgpa-container { text-align: center; }
 .cgpa-form { display: flex; flex-direction: column; gap: 15px; max-width: 400px; margin: 20px auto; text-align: left; }
 .input-group label { font-weight: bold; font-size: 14px; color: #555; }
-.input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
+.input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; margin-top: 4px; }
 .divider { text-align: center; color: #aaa; font-weight: bold; font-size: 12px; letter-spacing: 1px; }
 
 /* RESULTS */
 .result-box { margin-top: 20px; padding: 15px; background: #eef4ff; border-left: 5px solid #2a5298; border-radius: 6px; text-align: left; min-height: 20px; }
+.result-box:empty { display: none; }
 .result-box h3 { margin: 0; color: #2a5298; }
+.result-box p { margin-top: 4px; color: #555; font-size: 14px; }
 
 /* HISTORY SIDEBAR */
+.history-backdrop {
+  position: fixed; inset: 0; background: rgba(15, 30, 60, 0.35);
+  z-index: 90; transition: opacity 0.3s ease;
+}
+.history-backdrop.hidden { opacity: 0; pointer-events: none; }
 .history-panel {
-  position: fixed; right: 0; top: 70px; bottom: 0; width: 300px;
+  position: fixed; right: 0; top: 0; bottom: 0; width: min(320px, 88vw);
   background: white; border-left: 1px solid #ccc; padding: 20px;
   box-shadow: -5px 0 15px rgba(0,0,0,0.1); transform: translateX(0);
-  transition: transform 0.3s ease; z-index: 100; overflow-y: auto;
+  transition: transform 0.3s ease, visibility 0s; z-index: 100; overflow-y: auto; text-align: left;
 }
-.history-panel.hidden { transform: translateX(100%); }
+.history-panel.hidden { transform: translateX(100%); visibility: hidden; transition: transform 0.3s ease, visibility 0s 0.3s; }
+.history-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.history-head h3 { color: #1e3c72; }
+.close-btn { background: transparent; color: #555; width: 40px; height: 40px; padding: 0; font-size: 18px; border-radius: 50%; }
 .history-item { list-style: none; background: #f9f9f9; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
-.danger-btn { background: #c0392b; width: 100%; margin-top: 10px; }
+.history-empty { list-style: none; color: #888; font-size: 14px; padding: 10px 0; }
+.danger-btn { background: #c0392b; width: 100%; margin-top: 10px; min-height: 44px; }
 
 /* FOOTER */
 footer { background: #1e3c72; color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 13px; }
 footer a { color: #f39c12; text-decoration: none; }
 
-/* Responsive */
+/* Responsive: tablets & phones */
 @media (max-width: 768px) {
-  header { flex-direction: column; gap: 10px; padding: 15px; }
-  .header-right { width: 100%; justify-content: center; flex-wrap: wrap; }
-  .controls { flex-direction: column; }
+  header { padding: 10px 16px; }
+  main { padding: 16px 12px; }
+  .calculator-container { padding: 18px 14px; border-radius: 12px; }
+  .controls { flex-direction: column; padding: 12px; }
+  .control-group { min-width: 0; }
+  .control-group select { padding: 10px; min-height: 44px; }
+
+  /* 16px text stops iPhones from zooming in when an input is tapped */
+  input, select { font-size: 16px; }
+  .small-input input { padding: 8px; }
 }
+
+/* Responsive: phones */
+@media (max-width: 600px) {
+  /* Compact header: logo | title | icon buttons */
+  .header-left img { width: 64px; padding: 3px; }
+  .header-center h1 { font-size: 18px; letter-spacing: 0.5px; }
+  .header-right { gap: 8px; }
+  .btn-text { display: none; }
+  .nav-link, .portal-btn, .icon-btn {
+    width: 40px; height: 40px; padding: 0; justify-content: center;
+    border-radius: 10px; font-size: 16px;
+  }
+  .nav-link { color: white; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3); }
+
+  /* Tabs: three equal columns, icon above a short label */
+  .tabs { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 16px; }
+  .tab-link { flex-direction: column; gap: 4px; padding: 10px 4px; font-size: 13px; border-radius: 8px 8px 0 0; }
+  .tab-link i { font-size: 17px; }
+  .tab-long { display: none; }
+  .tab-short { display: inline; }
+
+  /* Subject table becomes one card per subject */
+  #courseTable, #courseTable tbody { display: block; }
+  #courseTable thead { display: none; }
+  #courseTable tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 0.8fr) minmax(0, 0.8fr) 44px;
+    gap: 8px; align-items: end;
+    background: #f8faff; border: 1px solid #dde6f5; border-radius: 10px;
+    padding: 10px; margin-bottom: 10px;
+  }
+  #courseTable td { border: none; padding: 0; min-width: 0; }
+  #courseTable td.subject-cell { grid-column: 1 / -1; width: auto; }
+  #courseTable td.subject-cell input { text-align: left; font-weight: 600; }
+  #courseTable td[data-label] { display: grid; grid-template-rows: auto 42px; row-gap: 4px; align-items: center; }
+  #courseTable td[data-label]::before {
+    content: attr(data-label); font-size: 11px; font-weight: 600; color: #6b7a90;
+    text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap;
+  }
+  #courseTable input { height: 42px; padding: 6px 8px; border-radius: 6px; background: #fff; }
+  #courseTable td.grd, #courseTable td.gpa { font-size: 16px; }
+  .delete-btn { width: 44px; height: 42px; padding: 0; border-radius: 8px; font-size: 15px; }
+
+  /* Buttons: Add + Reset side by side, Calculate full width */
+  .buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .buttons .calc-btn { grid-column: 1 / -1; }
+  .buttons button { min-height: 46px; font-size: 15px; }
+
+  .semester-grid { gap: 10px; }
+  .cgpa-form { margin: 16px auto; gap: 12px; }
+  .result-box h3 { font-size: 18px; }
+  footer { font-size: 12px; padding: 12px; }
+}
+
+@media (max-width: 360px) {
+  .header-left img { width: 52px; }
+  .header-center h1 { font-size: 16px; }
+  .header-right { gap: 6px; }
+}
+
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

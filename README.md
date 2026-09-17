@@ -17,8 +17,9 @@ It uses **Local Storage** to save your history privately on your device—no dat
 
 ### ⚡ **Fast & Efficient**
 
-- **Presets:** One-click loading for **BSAI (Sem 1-4)**, **BSCS**, and **BBA**.
+- **Presets:** One-click loading for **BSAI (Sem 1-5)**, **BSCS**, and **BBA**.
 - **Auto-Calculation:** Instantly calculates GPA based on credit hours and marks.
+- **Phone Friendly:** Subjects turn into easy-to-tap cards on mobile, with a number keypad for marks.
 
 ### 🛠 **Advanced Tools**
 
@@ -31,7 +32,7 @@ It uses **Local Storage** to save your history privately on your device—no dat
 
 - **Standard Model:** Default IMS grading (Standard).
 - **Strict Model:** Higher threshold grading.
-- **Custom Model:** Set your own passing marks and grade requirements.
+- **Custom Model:** Set your own passing marks and A threshold; marks in between are split evenly into C, C+, B and B+.
 
 ### 🔒 **Private History**
 
@@ -47,7 +48,8 @@ It uses **Local Storage** to save your history privately on your device—no dat
 - ✅ Semester 1
 - ✅ Semester 2
 - ✅ Semester 3
-- ✅ **Semester 4 (New!)** _(Includes AI, DB, Algorithms, etc.)_
+- ✅ Semester 4 _(Includes AI, DB, Algorithms, etc.)_
+- ✅ **Semester 5 (New!)** _(18 Cr: Machine Learning, Computer Networks, Parallel & Distributed Computing, Programming for AI, Technical & Business Writing, Fundamentals of Accounting)_
 
 ### **BS Computer Science (BSCS)**
 
@@ -62,7 +64,7 @@ It uses **Local Storage** to save your history privately on your device—no dat
 
 ## 🚀 How to Use
 
-1. **Open the Link:** [https://hammadshakeelai.github.io/test/](https://hammadshakeelai.github.io/test/)
+1. **Open the Link:** [https://hammadshakeelai.github.io/GPA-Calculator-Adanced-Project-IMS/](https://hammadshakeelai.github.io/GPA-Calculator-Adanced-Project-IMS/)
 2. **Select a Preset:** Choose your degree and semester from the dropdown.
 3. **Enter Marks:** Input your obtained marks for each subject.
 4. **Calculate:** Click **"Calculate SGPA"** to see your result.
