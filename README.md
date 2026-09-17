@@ -3,10 +3,9 @@
 
 **Web for private || public GPA calculations.** Fast, responsive, and equipped with presets for IMSciences students.
 
-🚀 **[Live Demo: Click Here to Use](https://hammadshakeelai.github.io/GPA-Calculator-Adanced-Project-IMS/)**
+🚀 **[Live Demo: Click Here to Use](https://hammadshakeelai.github.io/GPA-Calculator-Advanced-Project-IMS/)**
 
 ---
-
 ## 📖 About
 
 This is a custom-built **GPA Calculator** designed specifically for students of **Institute of Management Sciences (IMSciences)**. It eliminates the hassle of manual calculations by providing pre-loaded subject lists (Presets) and accurate grading formulas.
@@ -66,7 +65,7 @@ It uses **Local Storage** to save your history privately on your device—no dat
 
 ## 🚀 How to Use
 
-1. **Open the Link:** [https://hammadshakeelai.github.io/GPA-Calculator-Adanced-Project-IMS/](https://hammadshakeelai.github.io/GPA-Calculator-Adanced-Project-IMS/)
+1. **Open the Link:** [https://hammadshakeelai.github.io/GPA-Calculator-Advanced-Project-IMS/](https://hammadshakeelai.github.io/GPA-Calculator-Advanced-Project-IMS/)
 2. **Select a Preset:** Choose your degree and semester from the dropdown.
 3. **Enter Marks:** Input your obtained marks for each subject.
 4. **Calculate:** Click **"Calculate SGPA"** to see your result.
